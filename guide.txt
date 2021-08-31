@@ -1,0 +1,17 @@
+pro-react-sidebar:
+npm install
+npm link
+npm run build
+
+pro-react-sidebar-demo:
+npm install
+npm link react-pro-sidebar --force
+npm run start
+
+cd pro-react-sidebar
+npm install
+npm run build
+cd pro-react-sidebar
+npm install --force
+cd ..
+npm run start:demo
