@@ -4,22 +4,19 @@
   "homepage": "./",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-icons": "^3.10.0",
-    "react-intl": "^4.5.2",
-    "react-pro-sidebar": "^0.4.4",
-    "react-scripts": "3.4.1",
-    "react-switch": "^5.0.1"
+    "@craco/craco": "^6.2.0",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "react-icons": "^4.2.0",
+    "react-intl": "^5.20.9",
+    "react-pro-sidebar": "file:..",
+    "react-scripts": "^4.0.3",
+    "react-switch": "^6.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,6 +34,6 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.14.1"
+    "sass": "^1.38.0"
   }
 }

@@ -2,9 +2,9 @@ import React, { forwardRef, createContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 export type Props = React.HTMLAttributes<HTMLElement> & {
-  collapsed?: boolean;
-  rtl?: boolean;
-  toggled?: boolean;
+  collapsed: boolean;
+  rtl: boolean;
+  toggled: boolean;
   width?: string | number;
   collapsedWidth?: string | number;
   image?: string;

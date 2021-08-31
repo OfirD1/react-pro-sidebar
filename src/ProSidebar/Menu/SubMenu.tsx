@@ -36,7 +36,7 @@ const SubMenu: React.ForwardRefRenderFunction<unknown, Props> = (
   },
   ref,
 ) => {
-  let popperInstance;
+  let popperInstance: any;
   const { collapsed, rtl, toggled } = useContext(SidebarContext);
   const [closed, setClosed] = useState(!defaultOpen);
   const popperElRef = useRef(null);
@@ -52,7 +52,7 @@ const SubMenu: React.ForwardRefRenderFunction<unknown, Props> = (
     if (firstchild) {
       if (collapsed) {
         if (referenceElement.current && popperElement.current) {
-          popperInstance = createPopper(referenceElement.current, popperElement.current, {
+          popperInstance = createPopper(referenceElement.current!, popperElement.current!, {
             placement: 'right',
             strategy: 'fixed',
             modifiers: [
@@ -73,8 +73,8 @@ const SubMenu: React.ForwardRefRenderFunction<unknown, Props> = (
             }
           });
 
-          ro.observe(popperElRef.current);
-          ro.observe(referenceElement.current);
+          ro.observe(popperElRef.current!);
+          ro.observe(referenceElement.current!);
         }
 
         setTimeout(() => {
