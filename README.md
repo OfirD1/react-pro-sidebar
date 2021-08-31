@@ -50,6 +50,25 @@ npm run start:demo
 
 Notes: 
 - If `npm install` in the `demo` folder doesn't work (seemingly because of npm package resolve issue), try `npm install --force` and it should work.
+- `demo` can be moved into any external folder. In that case, it's recommended to use `npm link` in the following way:
+  1. Run:   
+  
+     ```bash
+      cd react-pro-sidebar
+      npm link
+      npm install
+      npm run build
+      cd demo
+      npm install
+      npm link react-pro-sidebar
+      cd ..
+      ```
+  2. Then, go to `demo\package.json` and remove the reference to `react-pro-sidebar`.
+  3. While in `react-pro-sidebar`, run:   
+  
+      ```bash
+      npm run start:demo
+      ```
 
 ## Notes regarding this fork
 
