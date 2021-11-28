@@ -1,7 +1,0 @@
-cd pro-react-sidebar
-npm install
-npm run build
-cd pro-react-sidebar
-npm install
-cd ..
-npm run start:demo

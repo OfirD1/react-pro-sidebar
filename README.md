@@ -16,6 +16,14 @@
 
 Customizable and responsive react sidebar library with dropdown menus and unlimited number of nested submenus
 
+## Disclaimer
+
+This repository is a fork of [react-pro-sidebar](https://github.com/azouaoui-med/react-pro-sidebar). 
+
+As of today, it's the only fork that supports React 17 and Typescript 4.
+
+Guidance on how to run the demo is provided as well.
+
 ## Demo
 
 [Live preview](https://azouaoui-med.github.io/react-pro-sidebar)
@@ -26,17 +34,49 @@ Customizable and responsive react sidebar library with dropdown menus and unlimi
 
 ## Installation
 
-### yarn
+This repository is currently not published as an NPM package, but it will soon be.
+
+## Run the Demo
 
 ```bash
-yarn add react-pro-sidebar
+cd react-pro-sidebar
+npm install
+npm run build
+cd demo
+npm install
+cd ..
+npm run start:demo
 ```
 
-### npm
+Notes: 
+- If `npm install` in the `demo` folder doesn't work (seemingly because of npm package resolve issue), try `npm install --force` and it should work.
+- `demo` can be moved into any external folder. In that case, it's recommended to use `npm link` in the following way:
+  1. Run:   
+  
+     ```bash
+      cd react-pro-sidebar
+      npm link
+      npm install
+      npm run build
+      cd demo
+      npm install
+      npm link react-pro-sidebar
+      cd ..
+      ```
+  2. Then, go to `demo\package.json` and remove the reference to `react-pro-sidebar`.
+  3. While in `react-pro-sidebar`, run:   
+  
+      ```bash
+      npm run start:demo
+      ```
 
-```bash
-npm install react-pro-sidebar
-```
+## Notes regarding this fork
+
+- Supports React 17 and Typescript 4. 
+- `npm install` runs successfuly even when python 2 is not present.
+- The `package.json` in 'react-pro-sidebar' uses `react-slidedown` (version `2.4.6` which supports React 17, provided [here](https://github.com/frankwallis/react-slidedown/issues/37)) as a local dependency using the `file:` reference.
+- The `package.json` in 'demo' uses `react-pro-sidebar` as a local dependency using the `file:` reference.
+- Using `craco` instead of `react-scripts` is needed so that NPM can successfuly resolve the path to `react`. Otherwise, two instances of React are created and the demo won't load. For further read, [see here](https://github.com/facebook/react/issues/13991#issuecomment-908664085). 
 
 ## Usage
 
