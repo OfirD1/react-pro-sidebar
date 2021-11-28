@@ -24,17 +24,14 @@
   .pro-menu {
     padding-top: 10px;
     padding-bottom: 10px;
+    > .pro-sub-menu {
+      > .pro-inner-list-item {
+        position: relative;
+        background-color: $submenu-bg-color;
 
-    > ul {
-      > .pro-sub-menu {
-        > .pro-inner-list-item {
-          position: relative;
-          background-color: $submenu-bg-color;
-
-          > div > ul {
-            padding-top: 15px;
-            padding-bottom: 15px;
-          }
+        > div {
+          padding-top: 15px;
+          padding-bottom: 15px;
         }
       }
     }
@@ -75,7 +72,7 @@
         position: relative;
         display: flex;
         align-items: center;
-        padding: 8px 35px 8px 20px;
+        padding: 5px 35px 5px 10px;
         cursor: pointer;
 
         &:focus {
@@ -156,7 +153,7 @@
         }
 
         .pro-inner-list-item {
-          padding-left: 20px;
+          padding-left: 10px;
 
           .pro-inner-item {
             padding: 8px 30px 8px 15px;
@@ -217,159 +214,74 @@
 
   &.collapsed {
     .pro-menu {
-      > ul {
-        > .pro-menu-item {
+      > .pro-menu-item {
+        > .pro-inner-item {
+          > .suffix-wrapper,
+          > .prefix-wrapper {
+            opacity: 0;
+          }
+        }
+        > .pro-inner-list-item {
+          background-color: $submenu-bg-color-collapsed;
+          z-index: 111;
+        }
+        position: relative;
+        &::before {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          cursor: pointer;
+        }
+        &.pro-sub-menu {
+          position: relative;
+
           > .pro-inner-item {
-            > .suffix-wrapper,
-            > .prefix-wrapper {
-              opacity: 0;
+            pointer-events: none;
+
+            > .pro-arrow-wrapper {
+              display: none;
             }
           }
           > .pro-inner-list-item {
-            background-color: $submenu-bg-color-collapsed;
-            z-index: 111;
-          }
-          position: relative;
-          &::before {
-            content: '';
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            cursor: pointer;
-          }
-          &.pro-sub-menu {
-            position: relative;
-
-            > .pro-inner-item {
-              pointer-events: none;
-
-              > .pro-arrow-wrapper {
-                display: none;
-              }
+            height: auto !important;
+            position: fixed;
+            visibility: hidden;
+            min-width: 220px;
+            max-width: 270px;
+            background-color: transparent;
+            max-height: 100%;
+            padding-left: 3px;
+            &.has-arrow {
+              padding-left: 10px;
             }
+            > .popper-inner {
+              max-height: 100vh;
+              overflow-y: auto;
+              background-color: $submenu-bg-color-collapsed;
+              padding-left: 20px;
+              border-radius: 4px;
+            }
+          }
+          &:hover {
             > .pro-inner-list-item {
-              height: auto !important;
-              position: fixed;
-              visibility: hidden;
-              min-width: 220px;
-              max-width: 270px;
-              background-color: transparent;
-              max-height: 100%;
-              padding-left: 3px;
-              &.has-arrow {
-                padding-left: 10px;
-              }
-              > .popper-inner {
-                max-height: 100vh;
-                overflow-y: auto;
-                background-color: $submenu-bg-color-collapsed;
-                padding-left: 20px;
-                border-radius: 4px;
-              }
+              transition: visibility, transform 0.3s;
+              visibility: visible;
             }
-            &:hover {
-              > .pro-inner-list-item {
-                transition: visibility, transform 0.3s;
-                visibility: visible;
-              }
-              .pro-icon-wrapper {
-                .pro-icon {
-                  animation: swing ease-in-out 0.5s 1 alternate;
-                }
-              }
-            }
-
-            .pro-inner-list-item {
-              .pro-sub-menu-item,
-              .pro-inner-item {
-                padding: 8px 30px 8px 5px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  // styles for rtl
-  &.rtl {
-    .pro-menu {
-      .pro-menu-item {
-        .prefix-wrapper {
-          margin-right: 0;
-          margin-left: 5px;
-        }
-        > .pro-inner-item {
-          padding: 8px 20px 8px 35px;
-          > .pro-icon-wrapper {
-            margin-right: 0;
-            margin-left: 10px;
-          }
-        }
-
-        &.pro-sub-menu {
-          > .pro-inner-item {
-            > .pro-arrow-wrapper {
-              right: auto;
-              left: 20px;
-              .pro-arrow {
-                transform: rotate(135deg);
-              }
-            }
-          }
-          &.open {
-            > .pro-inner-item {
-              > .pro-arrow-wrapper {
-                .pro-arrow {
-                  transform: rotate(45deg);
-                }
+            .pro-icon-wrapper {
+              .pro-icon {
+                animation: swing ease-in-out 0.5s 1 alternate;
               }
             }
           }
 
           .pro-inner-list-item {
-            padding-left: 0;
-            padding-right: 20px;
-
+            .pro-sub-menu-item,
             .pro-inner-item {
-              padding: 8px 15px 8px 30px;
-              &:before {
-                margin-right: 0;
-                margin-left: 15px;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    // styles for rtl and collapsed
-    &.collapsed {
-      .pro-menu {
-        > ul {
-          > .pro-menu-item {
-            &.pro-sub-menu {
-              > .pro-inner-list-item {
-                padding-left: 0;
-                padding-right: 3px;
-                &.has-arrow {
-                  padding-right: 10px;
-                }
-                > .popper-inner {
-                  padding-left: 0;
-                  padding-right: 20px;
-                }
-              }
-
-              .pro-inner-list-item {
-                .pro-sub-menu-item,
-                .pro-inner-item {
-                  padding: 8px 5px 8px 30px;
-                }
-              }
+              padding: 8px 30px 8px 5px;
             }
           }
         }

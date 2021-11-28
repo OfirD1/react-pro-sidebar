@@ -9,13 +9,24 @@ export type Props = React.HTMLAttributes<HTMLElement> & {
   children?: React.ReactNode;
   iconShapeType?: IconShapeType;
   popperArrow?: boolean;
+  useList?: boolean;
 };
 
 const Menu: React.ForwardRefRenderFunction<unknown, Props> = (
-  { children, className, iconShapeType, popperArrow, ...rest },
+  { children, className, iconShapeType, popperArrow, useList = true, ...rest },
   ref,
 ) => {
-    const menuRef: LegacyRef<HTMLElement> = (ref as any) || React.createRef<HTMLElement>();
+  const menuRef: LegacyRef<HTMLElement> = (ref as any) || React.createRef<HTMLElement>();
+  const MenuBody =
+    React.Children.toArray(children)
+        .filter(Boolean)
+        .map((child, index) =>
+          React.cloneElement(child as React.ReactElement, {
+            key: index,
+            firstchild: 1,
+            popperarrow: popperArrow === true ? 1 : 0,
+          }),
+        );
   return (
     <nav
       ref={menuRef}
@@ -24,17 +35,7 @@ const Menu: React.ForwardRefRenderFunction<unknown, Props> = (
       })}
       {...rest}
     >
-      <ul>
-        {React.Children.toArray(children)
-          .filter(Boolean)
-          .map((child, index) =>
-            React.cloneElement(child as React.ReactElement, {
-              key: index,
-              firstchild: 1,
-              popperarrow: popperArrow === true ? 1 : 0,
-            }),
-          )}
-      </ul>
+      { useList ? <ul>{ MenuBody }</ul> : <div>{ MenuBody }</div> }
     </nav>
   );
 };

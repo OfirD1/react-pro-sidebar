@@ -1,11 +1,11 @@
-import React, { useState, forwardRef, LegacyRef, useRef, useEffect, useContext } from 'react';
+import React, { useState, forwardRef, useRef, useEffect, useContext } from 'react';
 import classNames from 'classnames';
 import SlideDown from 'react-slidedown';
 import { createPopper } from '@popperjs/core';
 import ResizeObserver from 'resize-observer-polyfill';
 import { SidebarContext } from '../ProSidebar';
 
-export type Props = React.LiHTMLAttributes<HTMLLIElement> & {
+export type Props = {
   children?: React.ReactNode;
   className?: string;
   icon?: React.ReactNode;
@@ -17,6 +17,7 @@ export type Props = React.LiHTMLAttributes<HTMLLIElement> & {
   firstchild?: boolean;
   popperarrow?: boolean;
   onOpenChange?: (open: boolean) => void;
+  useList?: boolean;
 };
 
 const SubMenu: React.ForwardRefRenderFunction<unknown, Props> = (
@@ -32,6 +33,7 @@ const SubMenu: React.ForwardRefRenderFunction<unknown, Props> = (
     firstchild,
     popperarrow,
     onOpenChange,
+    useList = true,
     ...rest
   },
   ref,
@@ -93,9 +95,54 @@ const SubMenu: React.ForwardRefRenderFunction<unknown, Props> = (
     };
   }, [collapsed, rtl, toggled]);
 
-  const subMenuRef: LegacyRef<HTMLLIElement> = (ref as any) || React.createRef<HTMLLIElement>();
+  const subMenuRef = (ref as any) || React.createRef();
+  
+  const subMenuHeader =
+    <div
+      ref={referenceElement}
+      className="pro-inner-item"
+      onClick={handleToggleSubMenu}
+      onKeyPress={handleToggleSubMenu}
+      role="button"
+      tabIndex={0}
+    >
+      {icon ? (
+        <span className="pro-icon-wrapper">
+          <span className="pro-icon">{icon}</span>
+        </span>
+      ) : null}
+      {prefix ? <span className="prefix-wrapper">{prefix}</span> : null}
+      <span className="pro-item-content">{title}</span>
+      {suffix ? <span className="suffix-wrapper">{suffix}</span> : null}
+      <span className="pro-arrow-wrapper">
+        <span className="pro-arrow" />
+      </span>
+    </div>;
 
+  const subMenuBody =
+    firstchild && collapsed ? (
+      <div
+        ref={popperElement}
+        className={classNames('pro-inner-list-item popper-element', { 'has-arrow': popperarrow })}
+      >
+        <div className="popper-inner" ref={popperElRef}>
+          {useList ? <ul>{children}</ul> : <div>{children}</div>}
+        </div>
+        {popperarrow ? <div className="popper-arrow" data-popper-arrow /> : null}
+      </div>
+    ) : (
+      <SlideDown
+        closed={typeof open === 'undefined' ? closed : !open}
+        className="pro-inner-list-item"
+      >
+        <div>
+            {useList ? <ul>{children}</ul> : <div>{children}</div>}
+        </div>
+      </SlideDown>
+    );
+  
   return (
+    useList ?
     <li
       ref={subMenuRef}
       className={classNames('pro-menu-item pro-sub-menu', className, {
@@ -103,48 +150,19 @@ const SubMenu: React.ForwardRefRenderFunction<unknown, Props> = (
       })}
       {...rest}
     >
-      <div
-        ref={referenceElement}
-        className="pro-inner-item"
-        onClick={handleToggleSubMenu}
-        onKeyPress={handleToggleSubMenu}
-        role="button"
-        tabIndex={0}
-      >
-        {icon ? (
-          <span className="pro-icon-wrapper">
-            <span className="pro-icon">{icon}</span>
-          </span>
-        ) : null}
-        {prefix ? <span className="prefix-wrapper">{prefix}</span> : null}
-        <span className="pro-item-content">{title}</span>
-        {suffix ? <span className="suffix-wrapper">{suffix}</span> : null}
-        <span className="pro-arrow-wrapper">
-          <span className="pro-arrow" />
-        </span>
-      </div>
-
-      {firstchild && collapsed ? (
-        <div
-          ref={popperElement}
-          className={classNames('pro-inner-list-item popper-element', { 'has-arrow': popperarrow })}
-        >
-          <div className="popper-inner" ref={popperElRef}>
-            <ul>{children}</ul>
-          </div>
-          {popperarrow ? <div className="popper-arrow" data-popper-arrow /> : null}
-        </div>
-      ) : (
-        <SlideDown
-          closed={typeof open === 'undefined' ? closed : !open}
-          className="pro-inner-list-item"
-        >
-          <div>
-            <ul>{children}</ul>
-          </div>
-        </SlideDown>
-      )}
-    </li>
+      {subMenuHeader}
+      {subMenuBody}
+    </li> :
+    <div
+      ref={subMenuRef}
+      className={classNames('pro-menu-item pro-sub-menu', className, {
+        open: typeof open === 'undefined' ? !closed : open,
+      })}
+      {...rest}
+    >
+      {subMenuHeader}
+      {subMenuBody}
+    </div>
   );
 };
 
